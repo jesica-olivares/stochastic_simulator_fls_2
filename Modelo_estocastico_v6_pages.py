@@ -71,7 +71,7 @@ def page_home():
         st.write("")
         st.write("")
         st.write("")
-        image = Image.open('image2.png')
+        image = Image.open('image2_en.png')
         st.image(image  )
         st.write('')  
 
@@ -332,7 +332,7 @@ def page_model():
                 #,str = 'J',bool = False)
                 #pdf.text(2, 25,intro)
                 fig1.savefig("fig1.jpg")
-                pdf.image("image2.png", x = 50, y = 140, w = 130, h = 90)
+                pdf.image("image2_en.png", x = 50, y = 140, w = 130, h = 90)
                 pdf.add_page()
                 pdf.set_font('Arial', 'B', 16)
                 pdf.image('FLS1.jpg', x = 180, y = 0, w = 30, h = 30)
