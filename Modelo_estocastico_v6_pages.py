@@ -167,12 +167,12 @@ def page_model():
                 st.error("Valor de p80 debe ser menor al siguiente")
                 st.stop()
     
-    contador=0
-    for i in range(node_number):
-        if i>1:
-            j=i-1
-            if globals()['p80%s' % i]>globals()['p80%s' % j]:
-                contador+=1
+        contador=0
+        for i in range(node_number):
+            if i>1:
+                j=i-1
+                if globals()['p80%s' % i]>globals()['p80%s' % j]:
+                    contador+=1
 
     if contador==node_number-2:
         with col32:
@@ -361,8 +361,9 @@ def page_model():
     else:
         with col41:
             st.write('')
-            st.write('')
-            st.write('')
-            st.subheader("Los valores de P80 deben ser estrictamente crecientes")
+                st.subheader("Los valores de P80 deben ser estrictamente crecientes")
+                st.write('')
+                st.write('')
+                
 if __name__ == "__main__":
     main()
