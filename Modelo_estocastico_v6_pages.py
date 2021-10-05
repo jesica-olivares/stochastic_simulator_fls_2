@@ -354,7 +354,7 @@ def page_model():
                 pdf.set_font('Arial','b', 16)
                 pdf.text(60, 260, f"Simulated Recovery: {str(simul_recovery)}")
 
-                html = create_download_link(pdf.output(dest="S").encode("latin-1"), "test")
+                html = create_download_link(pdf.output(dest="S").encode("latin-1"), "Report_P80")
 
                 st.markdown(html, unsafe_allow_html=True)
 
