@@ -359,11 +359,12 @@ def page_model():
                 st.markdown(html, unsafe_allow_html=True)
 
     else:
+                
         with col41:
             st.write('')
-                st.subheader("Los valores de P80 deben ser estrictamente crecientes")
-                st.write('')
-                st.write('')
+            st.subheader("Los valores de P80 deben ser estrictamente crecientes")
+            #    st.write('')
+             #   st.write('')
                 
 if __name__ == "__main__":
     main()
