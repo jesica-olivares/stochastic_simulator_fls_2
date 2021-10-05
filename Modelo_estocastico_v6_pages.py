@@ -142,8 +142,7 @@ def page_model():
 
 
     col31, col32, col33, col34, col35 = st.columns((1,4,2,4,1))
-    with col32:
-        st.subheader('Gráfico de Recuperación versus P80')
+    
     #generamos 3 columnas
     with col34:
         st.subheader('Tabla de Recuperación versus P80')
@@ -176,6 +175,8 @@ def page_model():
                 contador+=1
 
     if contador==node_number-2:
+        with col32:
+            st.subheader('Gráfico de Recuperación versus P80')
         with col44:
             st.write('')
             if (file_template is not None):
