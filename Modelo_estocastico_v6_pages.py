@@ -287,10 +287,9 @@ def page_model():
             #'midnightblue'
             color2="#C94F7E"
             #'purple'
-
+            plt.style.use('default')
             x_new = np.linspace(x1_min, x2_max, 100)
             y_new = f(x_new)
-
             plt.rcParams.update({'font.size': 16})
             fig1, ax = plt.subplots(figsize=(12,8))
             ax2=ax.twinx()
@@ -472,7 +471,7 @@ def page_sensitivity():
         #plt.style.use('bmh')
         plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
         for i in range(6):
-            #plt.style.use('bmh')
+            plt.style.use('bmh')
             ax.plot(list_std[i*26:i*26+26], list_rec[i*26:i*26+26],linewidth =2,  alpha=.8,label=list_mean3[i])
             ax.legend()
         #color=color1,
