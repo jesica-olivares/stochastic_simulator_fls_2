@@ -450,12 +450,12 @@ def page_sensitivity():
         list_rec=[]
         list_std=[]
         list_mean=[]
-        number_sim=26
+        number_sim=20
         for j in range(1,7):
             average_p80=mean_p80_min+(mean_p80_max-mean_p80_min)*(j-1)/5
             list_mean.append(round(average_p80))
             for i in range(0,number_sim):
-                std_aux=std_p80_min+(std_p80_max-std_p80_min)*i/25
+                std_aux=std_p80_min+(std_p80_max-std_p80_min)*i/(number_sim-1)
                 prob=random.random()
                 df_rand= pd.DataFrame(np.random.random(size=(simul_number, 1)), columns=['random'])
                 df_rand['Simulated_p80']=norm.ppf(df_rand['random'],loc=average_p80,scale=std_aux)
