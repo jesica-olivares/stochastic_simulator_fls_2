@@ -194,7 +194,7 @@ def page_model():
         for i in range(node_number):
             if i>1:
                 j=i-1
-                if p80_list2[i]>p80_list2[j]]:
+                if p80_list2[i]>p80_list2[j]:
                     contador+=1
 
     if contador==node_number-2:
