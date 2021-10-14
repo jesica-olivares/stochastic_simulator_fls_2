@@ -244,6 +244,7 @@ def page_model():
         min_graph=round(p80_min*0.8)
 
         f = CubicSpline(x, y, bc_type='natural')
+        st.session_state.f= f
 
         x1_min=df_test["p80"].iloc[0]
         slope_1=f(x1_min,1)
