@@ -117,7 +117,7 @@ def page_model():
         st.write('')
         average_p80 =st.number_input("Average P80",min_value=35,max_value=300,value=average_p80_val)
         std_p80 =st.number_input("Standard Deviation P80",min_value=1,value=std_p80_val)
-        simul_number =st.number_input("Number of Simulations",min_value=1,value=simul_number_val,)
+        st.session_state.simul_number =st.number_input("Number of Simulations",min_value=1,value=simul_number_val,)
         node_number =st.number_input("Number of Nodes",min_value=3,max_value=8,value=node_number_val)
         template_sim=st.selectbox("Select a Template", templates,index=3)
     st.write('')
@@ -262,7 +262,7 @@ def page_model():
 
         prob=random.random()
         norm.ppf(prob,loc=average_p80,scale=std_p80)
-        df_rand= pd.DataFrame(np.random.random(size=(simul_number, 1)), columns=['random'])
+        df_rand= pd.DataFrame(np.random.random(size=(st.session_state.simul_number, 1)), columns=['random'])
         df_rand['Simulated_p80']=norm.ppf(df_rand['random'],loc=average_p80,scale=std_p80)
 
         def check(row):
@@ -408,8 +408,6 @@ def page_model():
             #    st.write('')
              #   st.write('')
 def page_sensitivity():
-
-
     col11, col12, col13 = st.columns((1,8,1.5))
 
     with col12:
@@ -449,7 +447,7 @@ def page_sensitivity():
     with col212:
          
         st.subheader('Recovery versus P80 Standar Deviation Graph')
-        simul_number=2000
+        simul_number=st.session_state.simul_number
 
         list_rec=[]
         list_std=[]
