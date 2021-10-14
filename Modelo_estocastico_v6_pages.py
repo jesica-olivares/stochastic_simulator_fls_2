@@ -217,7 +217,7 @@ def page_model():
                         j=i+1
                         b  =st.number_input(f"Recovery {j}",min_value=0,max_value=100,value=globals()['val_rec_%s' % j])
                         rec_list.append(b)
-                 else:
+                else:
                     rec_list=list(df_template['Recovery'])
     
         data=[]
