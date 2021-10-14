@@ -112,7 +112,7 @@ def page_model():
             simul_number_val =500
             node_number_val =3
         
-        templates=["1-Chiquicamata","2-El Salvador","3-Disputada","4-Customizable"]
+        templates=["1-Chuquicamata","2-El Salvador","3-Disputada","4-Customizable"]
         st.subheader('Plant historical P80 data')
         st.write('')
         average_p80 =st.number_input("Average P80",min_value=35,max_value=300,value=average_p80_val)
@@ -383,7 +383,7 @@ def page_model():
                 pdf.text(50, 50, f"Average P80: {str(average_p80)}")
                 pdf.text(50, 60, f"Standard Deviation P80: {str(std_p80)}")
                 pdf.text(50, 80, f"Number of Nodes: {str(node_number)}")
-
+                pdf.text(50, 70, f"Number of Simulations: {str( st.session_state.simul_number)}")
                 pdf.text(20, 95, f"Laboratory Recovery versus P80 Table")
                 pdf.set_font('Arial','', 10)
                 for i in range(node_number):
