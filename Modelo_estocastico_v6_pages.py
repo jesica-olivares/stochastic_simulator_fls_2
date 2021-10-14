@@ -469,10 +469,10 @@ def page_sensitivity():
         mystring='P80 mean : '
         list_mean3=[mystring + s   for s in list_mean2]
         fig2, ax = plt.subplots(figsize=(12,8))
-        plt.style.use('bmh')
+        #plt.style.use('bmh')
         plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
         for i in range(6):
-            plt.style.use('bmh')
+            #plt.style.use('bmh')
             ax.plot(list_std[i*26:i*26+26], list_rec[i*26:i*26+26],linewidth =2,  alpha=.8,label=list_mean3[i])
             ax.legend()
         #color=color1,
