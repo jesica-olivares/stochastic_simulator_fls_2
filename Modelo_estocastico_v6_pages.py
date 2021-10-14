@@ -171,7 +171,8 @@ def page_model():
                 try:
                     for i in range(node_number):
                         j=i+1
-                        globals()['p80%s' % j] =st.number_input(f"P80 {j}",max_value=300,value=globals()['val_p80_%s' % j])
+                        a =st.number_input(f"P80 {j}",max_value=300,value=globals()['val_p80_%s' % j])
+                        p80_list2.append(a)
                     
                 except:
                     st.error("Valor de p80 debe ser menor al siguiente")
