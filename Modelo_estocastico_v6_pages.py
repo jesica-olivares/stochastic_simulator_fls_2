@@ -472,7 +472,7 @@ def page_sensitivity():
         #plt.style.use('bmh')
         plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
         for i in range(4):
-            plt.style.use('bmh')
+            #plt.style.use('bmh')
             ax.plot(list_std[i*number_sim:i*number_sim+number_sim], list_rec[i*number_sim:i*number_sim+number_sim],linewidth =2,  alpha=.8,label=list_mean3[i])
             ax.legend()
         #color=color1,
