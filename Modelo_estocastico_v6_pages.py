@@ -336,7 +336,7 @@ def page_model():
                 listofzeros_st=['']*(node_number-1)
                 listofzeros_st.insert(0,std_p80)
                 listofzeros_sim=['']*(node_number-1)
-                listofzeros_sim.insert(0,simul_number)
+                listofzeros_sim.insert(0,st.session_state.simul_number)
                 listofzeros_nod=['']*(node_number-1)
                 listofzeros_nod.insert(0,node_number)
                 df_donwload.insert(loc=0, column='Number_nodes',value=listofzeros_nod)
@@ -383,7 +383,6 @@ def page_model():
                 pdf.text(20, 40, f"Parameters")
                 pdf.text(50, 50, f"Average P80: {str(average_p80)}")
                 pdf.text(50, 60, f"Standard Deviation P80: {str(std_p80)}")
-                pdf.text(50, 70, f"Number of Simulations: {str(simul_number)}")
                 pdf.text(50, 80, f"Number of Nodes: {str(node_number)}")
 
                 pdf.text(20, 95, f"Laboratory Recovery versus P80 Table")
