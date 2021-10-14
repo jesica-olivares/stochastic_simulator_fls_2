@@ -109,7 +109,7 @@ def page_model():
         else:
             average_p80_val =200
             std_p80_val= 15
-            simul_number_val =1000
+            simul_number_val =500
             node_number_val =3
         
         templates=["1-Chiquicamata","2-El Salvador","3-Disputada","4-Customizable"]
@@ -450,10 +450,11 @@ def page_sensitivity():
         list_rec=[]
         list_std=[]
         list_mean=[]
+        number_sim=26
         for j in range(1,7):
             average_p80=mean_p80_min+(mean_p80_max-mean_p80_min)*(j-1)/5
             list_mean.append(round(average_p80))
-            for i in range(0,26):
+            for i in range(0,number_sim):
                 std_aux=std_p80_min+(std_p80_max-std_p80_min)*i/25
                 prob=random.random()
                 df_rand= pd.DataFrame(np.random.random(size=(simul_number, 1)), columns=['random'])
@@ -472,7 +473,7 @@ def page_sensitivity():
         plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
         for i in range(6):
             plt.style.use('bmh')
-            ax.plot(list_std[i*26:i*26+26], list_rec[i*26:i*26+26],linewidth =2,  alpha=.8,label=list_mean3[i])
+            ax.plot(list_std[i*number_sim:i*number_sim+number_sim], list_rec[i*number_sim:i*number_sim+number_sim],linewidth =2,  alpha=.8,label=list_mean3[i])
             ax.legend()
         #color=color1,
         #ax.plot(x, y, 'o', color=color1)
