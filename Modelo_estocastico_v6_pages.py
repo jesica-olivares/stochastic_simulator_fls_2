@@ -191,11 +191,14 @@ def page_model():
                     df_template=df_disputada
                 p80_list2=list(df_template['p80'])
         contador=0
-        for i in range(node_number):
-            if i>1:
-                j=i-1
-                if p80_list2[i]>p80_list2[j]:
-                    contador+=1
+        if template_sim==templates[3]:
+            for i in range(node_number):
+                if i>1:
+                    j=i-1
+                    if p80_list2[i]>p80_list2[j]:
+                        contador+=1
+        else:
+            contador=node_number-2
 
     if contador==node_number-2:
         with col32:
