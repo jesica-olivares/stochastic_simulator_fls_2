@@ -451,8 +451,8 @@ def page_sensitivity():
         list_std=[]
         list_mean=[]
         number_sim=20
-        for j in range(1,7):
-            average_p80=mean_p80_min+(mean_p80_max-mean_p80_min)*(j-1)/5
+        for j in range(1,5):
+            average_p80=mean_p80_min+(mean_p80_max-mean_p80_min)*(j-1)/3
             list_mean.append(round(average_p80))
             for i in range(0,number_sim):
                 std_aux=std_p80_min+(std_p80_max-std_p80_min)*i/(number_sim-1)
