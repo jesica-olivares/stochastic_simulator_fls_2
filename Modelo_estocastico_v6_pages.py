@@ -109,7 +109,7 @@ def page_model():
         else:
             average_p80_val =200
             std_p80_val= 15
-            simul_number_val =500
+            simul_number_val =1000
             node_number_val =3
         
         templates=["1-Chuquicamata","2-El Salvador","3-Disputada","4-Customizable"]
