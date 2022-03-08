@@ -252,14 +252,14 @@ def page_model():
         c_1=df_test["Recovery"].iloc[0]-slope_1*st.session_state.x1_min
         x0_1=-c_1/slope_1
         st.session_state.x_new_1=np.linspace(0,st.session_state.x1_min-1, 100)
-        y_new_1=st.session_state.x_new_1 *slope_1+c_1
+        st.session_state.y_new_1=st.session_state.x_new_1 *slope_1+c_1
 
         st.session_state.x2_max=df_test["p80"].iloc[-1]
         slope_2=f(st.session_state.x2_max,1)
         c_2=df_test["Recovery"].iloc[-1]-slope_2*st.session_state.x2_max
         st.session_state.x0_2=-c_2/slope_2
-        x_new_2=np.linspace(st.session_state.x2_max+1, st.session_state.x0_2, 100)
-        y_new_2=x_new_2 *slope_2+c_2
+        st.session_state.x_new_2=np.linspace(st.session_state.x2_max+1, st.session_state.x0_2, 100)
+        st.session_state.y_new_2=x_new_2 *slope_2+c_2
 
         prob=random.random()
         norm.ppf(prob,loc=average_p80,scale=std_p80)
@@ -296,8 +296,8 @@ def page_model():
             ax2=ax.twinx()
             plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
             ax.fill_between(x_new, y_new,alpha=0.1,color=color1,linewidth=2)
-            ax.fill_between(st.session_state.x_new_1, y_new_1,alpha=0.1,color=color1,linewidth=2)
-            ax.fill_between(x_new_2, y_new_2,alpha=0.1,color=color1,linewidth=2)
+            ax.fill_between(st.session_state.x_new_1, st.session_state.y_new_1,alpha=0.1,color=color1,linewidth=2)
+            ax.fill_between(st.session_state.x_new_2, st.session_state.y_new_2,alpha=0.1,color=color1,linewidth=2)
             ax.plot(x_new, y_new,linewidth =2, color=color1, alpha=.8)
             ax.plot(x, y, 'o', color=color1)
             ax.set_ylabel("Recovery", color = color1)
@@ -312,8 +312,8 @@ def page_model():
             ax.spines['bottom'].set_linewidth('0.3') 
             ax.spines['left'].set_linewidth('0.3') 
             ax.set_ylim([0,100])
-            ax.plot(st.session_state.x_new_1, y_new_1,color=color1,linewidth=2)
-            ax.plot(x_new_2, y_new_2,color=color1,linewidth=2)
+            ax.plot(st.session_state.x_new_1, st.session_state.y_new_1,color=color1,linewidth=2)
+            ax.plot(st.session_state.x_new_2, st.session_state.y_new_2,color=color1,linewidth=2)
             ax2=sns.histplot(df_rand,x='Simulated_p80_check', bins=20, color=color2,)
             ax2.set_ylabel("Count", color = color2)
             #plt.title('Curva Recuperación versus P80',fontsize=22)
