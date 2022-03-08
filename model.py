@@ -247,18 +247,18 @@ def page_model():
         f = CubicSpline(x, y, bc_type='natural')
         st.session_state.f= f
 
-        x1_min=df_test["p80"].iloc[0]
-        slope_1=f(x1_min,1)
-        c_1=df_test["Recovery"].iloc[0]-slope_1*x1_min
+        st.session_state.x1_min=df_test["p80"].iloc[0]
+        slope_1=f(st.session_state.x1_min,1)
+        c_1=df_test["Recovery"].iloc[0]-slope_1*st.session_state.x1_min
         x0_1=-c_1/slope_1
-        st.session_state.x_new_1=np.linspace(0,x1_min-1, 100)
+        st.session_state.x_new_1=np.linspace(0,st.session_state.x1_min-1, 100)
         y_new_1=st.session_state.x_new_1 *slope_1+c_1
 
-        x2_max=df_test["p80"].iloc[-1]
-        slope_2=f(x2_max,1)
-        c_2=df_test["Recovery"].iloc[-1]-slope_2*x2_max
+        st.session_state.x2_max=df_test["p80"].iloc[-1]
+        slope_2=f(st.session_state.x2_max,1)
+        c_2=df_test["Recovery"].iloc[-1]-slope_2*st.session_state.x2_max
         st.session_state.x0_2=-c_2/slope_2
-        x_new_2=np.linspace(x2_max+1, st.session_state.x0_2, 100)
+        x_new_2=np.linspace(st.session_state.x2_max+1, st.session_state.x0_2, 100)
         y_new_2=x_new_2 *slope_2+c_2
 
         prob=random.random()
@@ -289,7 +289,7 @@ def page_model():
             color2="#C94F7E"
             #'purple'
             plt.style.use('default')
-            x_new = np.linspace(x1_min, x2_max, 100)
+            x_new = np.linspace(st.session_state.x1_min, st.session_state.x2_max, 100)
             y_new = f(x_new)
             plt.rcParams.update({'font.size': 16})
             fig1, ax = plt.subplots(figsize=(12,8))
