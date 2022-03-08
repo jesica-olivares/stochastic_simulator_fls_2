@@ -567,7 +567,7 @@ def page_eco():
         ax.plot(st.session_state.x_new_2, st.session_state.y_new_2,color=color1,linewidth=2)
         ax2=sns.histplot(st.session_state.df_rand,x='Simulated_p80_check', bins=20, color=color2,)
         ax2.set_ylabel("Count", color = color2)
-        ax.text(ax.get_xlim()[1]*.8,90 ,f'std 1 {std_p80_1}')
+        ax.text(ax.get_xlim()[1]*.8,90 ,f'std 1: {std_p80_1}')
 
         #plt.title('Curva Recuperación versus P80',fontsize=22)
         st.pyplot(fig1)
