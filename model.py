@@ -257,8 +257,8 @@ def page_model():
         x2_max=df_test["p80"].iloc[-1]
         slope_2=f(x2_max,1)
         c_2=df_test["Recovery"].iloc[-1]-slope_2*x2_max
-        x0_2=-c_2/slope_2
-        x_new_2=np.linspace(x2_max+1, x0_2, 100)
+        st.session_state.x0_2=-c_2/slope_2
+        x_new_2=np.linspace(x2_max+1, st.session_state.x0_2, 100)
         y_new_2=x_new_2 *slope_2+c_2
 
         prob=random.random()
@@ -269,7 +269,7 @@ def page_model():
         def check(row):
             if row['Simulated_p80']<35: 
                 val=np.nan
-            elif row['Simulated_p80']>x0_2: 
+            elif row['Simulated_p80']>st.session_state.x0_2: 
                 val=np.nan
             else: 
                 val=row['Simulated_p80']
