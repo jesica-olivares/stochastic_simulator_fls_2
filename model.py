@@ -235,8 +235,8 @@ def page_model():
         else:
             df_test=df_template.copy()
             
-        x=df_test["p80"]
-        y=df_test["Recovery"]    
+        st.session_state.x=df_test["p80"]
+        st.session_state.y=df_test["Recovery"]    
 
         p80_min=df_test['p80'].min()
         p80_max=df_test['p80'].max()
@@ -244,7 +244,7 @@ def page_model():
         max_graph=round(p80_max*1.1)
         min_graph=round(p80_min*0.8)
 
-        f = CubicSpline(x, y, bc_type='natural')
+        f = CubicSpline(st.session_state.x, st.session_state.y, bc_type='natural')
         st.session_state.f= f
 
         st.session_state.x1_min=df_test["p80"].iloc[0]
@@ -259,7 +259,7 @@ def page_model():
         c_2=df_test["Recovery"].iloc[-1]-slope_2*st.session_state.x2_max
         st.session_state.x0_2=-c_2/slope_2
         st.session_state.x_new_2=np.linspace(st.session_state.x2_max+1, st.session_state.x0_2, 100)
-        st.session_state.y_new_2=x_new_2 *slope_2+c_2
+        st.session_state.y_new_2=st.session_state.x_new_2 *slope_2+c_2
 
         prob=random.random()
         norm.ppf(prob,loc=average_p80,scale=std_p80)
@@ -279,8 +279,10 @@ def page_model():
         df_rand['Simulated_p80_check']=df_rand.apply(check, axis=1) 
         df_rand["recovery"]=df_rand['Simulated_p80_check'].apply(f)
 
-        simul_recovery=df_rand[df_rand["recovery"]>0]["recovery"].mean()
-        simul_recovery=round(simul_recovery,2)
+        st.session_state.simul_recovery=df_rand[df_rand["recovery"]>0]["recovery"].mean()
+        st.session_state.simul_recovery=round(st.session_state.simul_recovery,2)
+
+        st.session_state.df_rand=df_rand
 
         with col41:
             st.subheader('')
@@ -299,7 +301,7 @@ def page_model():
             ax.fill_between(st.session_state.x_new_1, st.session_state.y_new_1,alpha=0.1,color=color1,linewidth=2)
             ax.fill_between(st.session_state.x_new_2, st.session_state.y_new_2,alpha=0.1,color=color1,linewidth=2)
             ax.plot(x_new, y_new,linewidth =2, color=color1, alpha=.8)
-            ax.plot(x, y, 'o', color=color1)
+            ax.plot(st.session_state.x, st.session_state.y, 'o', color=color1)
             ax.set_ylabel("Recovery", color = color1)
             ax.set_xlabel("P80")
             #plt.axhline(y = thr_mean, color = 'r', linestyle = '--',linewidth =0.4)
@@ -319,7 +321,7 @@ def page_model():
             #plt.title('Curva Recuperación versus P80',fontsize=22)
             st.pyplot(fig1)
 
-            metric("Simulated Recovery", simul_recovery,)
+            metric("Simulated Recovery", st.session_state.simul_recovery,)
         def convert_df(df):
             return df.to_csv(sep=";",index=False).encode('latin-1')
 
@@ -393,7 +395,7 @@ def page_model():
 
                 pdf.image("fig1.jpg", x = 40, y = 160, w = 130, h = 90)
                 pdf.set_font('Arial','b', 16)
-                pdf.text(60, 260, f"Simulated Recovery: {str(simul_recovery)}")
+                pdf.text(60, 260, f"Simulated Recovery: {str(st.session_state.simul_recovery)}")
 
                 html = create_download_link(pdf.output(dest="S").encode("latin-1"), "Report_P80")
 
@@ -482,8 +484,7 @@ def page_sensitivity():
         ax.set_xlabel("P80 Standar Deviation")
         st.pyplot(fig2)
         #plt.plot(list_std,list_rec)
-        
-        
+ 
 def page_eco():
 
     col11, col12, col13 = st.columns((1,8,1.5))
@@ -649,7 +650,7 @@ def page_eco():
     ppd=cobre_ad*2204.63
     us_day=ppd*precio
     us_year=us_day*365
-
+    
     with col32:
         st.info(f'Recovery Difference: {round(rec_dif,2)}%')
         st.info(f'Daily Tons of Additional Fine Copper: {round(cobre_ad,2)} tpd')
@@ -660,6 +661,8 @@ def page_eco():
         else:
             st.error(f'Additional Daily Income: {round(us_day,):,} US$/day')
             st.error(f'Additional Yearly Income: {round(us_year,):,} US$/year')
+
+
 
 if __name__ == "__main__":
     main()
