@@ -503,8 +503,8 @@ def page_eco():
         std_p80_1 =st.number_input("Standard Deviation P80 - 1",min_value=1,value=35)
         std_p80_2 =st.number_input("Standard Deviation P80 - 2" ,min_value=1,value=15)
         ton_diario =st.number_input("Daily TPH" ,value=180000)
-        ley =st.number_input("Average Cupper Law (Percentage)" ,value=0.9)
-        precio=st.number_input("Cupper Pound Price" ,value=4.86)
+        ley =st.number_input("Average Copper Grade (Percentage)" ,value=0.9)
+        precio=st.number_input("Copper Price (US$/lb)" ,value=4.86)
     st.write('')
     col21, col22, col23 = st.columns((8,2,8))
     with col21:
