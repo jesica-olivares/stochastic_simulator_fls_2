@@ -484,182 +484,182 @@ def page_sensitivity():
         #plt.plot(list_std,list_rec)
         
         
-    def page_eco():
+def page_eco():
 
-        col11, col12, col13 = st.columns((1,8,1.5))
+    col11, col12, col13 = st.columns((1,8,1.5))
 
-        with col12:
-            st.title("Economic Evaluation")
-            #st.write("")
-        with col13:
-            image = Image.open('FLS1.jpg')
-            st.image(image  , caption='FLSmidth')
-            st.write('')  
+    with col12:
+        st.title("Economic Evaluation")
+        #st.write("")
+    with col13:
+        image = Image.open('FLS1.jpg')
+        st.image(image  , caption='FLSmidth')
+        st.write('')  
 
-        cola1, cola2, cola3 = st.columns((1,8,1))
-        with cola2:
-            average_p80 =st.number_input("Average P80",min_value=35,max_value=300,value=180)
-            std_p80_1 =st.number_input("Standard Deviation P80 - 1",min_value=1,value=35)
-            std_p80_2 =st.number_input("Standard Deviation P80 - 2" ,min_value=1,value=15)
-            ton_diario =st.number_input("Daily TPH" ,value=180000)
-            ley =st.number_input("Average Cupper Law (Percentage)" ,value=0.9)
-            precio=st.number_input("Cupper Pound Price" ,value=4.86)
-        st.write('')
-        col21, col22, col23 = st.columns((8,2,8))
-        with col21:
-            st.subheader('')
+    cola1, cola2, cola3 = st.columns((1,8,1))
+    with cola2:
+        average_p80 =st.number_input("Average P80",min_value=35,max_value=300,value=180)
+        std_p80_1 =st.number_input("Standard Deviation P80 - 1",min_value=1,value=35)
+        std_p80_2 =st.number_input("Standard Deviation P80 - 2" ,min_value=1,value=15)
+        ton_diario =st.number_input("Daily TPH" ,value=180000)
+        ley =st.number_input("Average Cupper Law (Percentage)" ,value=0.9)
+        precio=st.number_input("Cupper Pound Price" ,value=4.86)
+    st.write('')
+    col21, col22, col23 = st.columns((8,2,8))
+    with col21:
+        st.subheader('')
 
-            prob=random.random()
-            norm.ppf(prob,loc=average_p80,scale=std_p80_1)
-            df_rand= pd.DataFrame(np.random.random(size=(st.session_state.simul_number, 1)), columns=['random'])
-            df_rand['Simulated_p80']=norm.ppf(df_rand['random'],loc=average_p80,scale=std_p80_1)
+        prob=random.random()
+        norm.ppf(prob,loc=average_p80,scale=std_p80_1)
+        df_rand= pd.DataFrame(np.random.random(size=(st.session_state.simul_number, 1)), columns=['random'])
+        df_rand['Simulated_p80']=norm.ppf(df_rand['random'],loc=average_p80,scale=std_p80_1)
 
-            def check(row):
-                if row['Simulated_p80']<35: 
-                    val=np.nan
-                elif row['Simulated_p80']>st.session_state.x0_2: 
-                    val=np.nan
-                else: 
-                    val=row['Simulated_p80']
-                return val
-
-
-            df_rand['Simulated_p80_check']=df_rand.apply(check, axis=1) 
-            df_rand["recovery"]=df_rand['Simulated_p80_check'].apply(st.session_state.f)
-
-            st.session_state.simul_recovery=df_rand[df_rand["recovery"]>0]["recovery"].mean()
-            st.session_state.simul_recovery=round(st.session_state.simul_recovery,2)
-
-            st.session_state.df_rand=df_rand
+        def check(row):
+            if row['Simulated_p80']<35: 
+                val=np.nan
+            elif row['Simulated_p80']>st.session_state.x0_2: 
+                val=np.nan
+            else: 
+                val=row['Simulated_p80']
+            return val
 
 
+        df_rand['Simulated_p80_check']=df_rand.apply(check, axis=1) 
+        df_rand["recovery"]=df_rand['Simulated_p80_check'].apply(st.session_state.f)
 
-            color1= "#002A54"
-            #'midnightblue'
-            color2="#C94F7E"
-            #'purple'
-            plt.style.use('default')
-            x_new = np.linspace(st.session_state.x1_min, st.session_state.x2_max, 100)
-            y_new = st.session_state.f(x_new)
-            plt.rcParams.update({'font.size': 16})
-            fig1, ax = plt.subplots(figsize=(12,8))
-            ax2=ax.twinx()
-            plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
-            ax.fill_between(x_new, y_new,alpha=0.1,color=color1,linewidth=2)
-            ax.fill_between(st.session_state.x_new_1, st.session_state.y_new_1,alpha=0.1,color=color1,linewidth=2)
-            ax.fill_between(st.session_state.x_new_2, st.session_state.y_new_2,alpha=0.1,color=color1,linewidth=2)
-            ax.plot(x_new, y_new,linewidth =2, color=color1, alpha=.8)
-            ax.plot(st.session_state.x, st.session_state.y, 'o', color=color1)
-            ax.set_ylabel("Recovery", color = color1)
-            ax.set_xlabel("P80")
-            #plt.axhline(y = thr_mean, color = 'r', linestyle = '--',linewidth =0.4)
-            #fig1.text(0.7,0.4,'Average: '+str(round(thr_mean)),color='red',size=4)
-            plt.ylabel("", fontsize=16)
-            plt.xlabel("", fontsize=16)
-            ax.tick_params(axis='both', which='major', labelsize=16,width=0.2)
-            ax.spines['top'].set_linewidth('0.3') 
-            ax.spines['right'].set_linewidth('0.3') 
-            ax.spines['bottom'].set_linewidth('0.3') 
-            ax.spines['left'].set_linewidth('0.3') 
-            ax.set_ylim([0,100])
-            ax.plot(st.session_state.x_new_1, st.session_state.y_new_1,color=color1,linewidth=2)
-            ax.plot(st.session_state.x_new_2, st.session_state.y_new_2,color=color1,linewidth=2)
-            ax2=sns.histplot(st.session_state.df_rand,x='Simulated_p80_check', bins=20, color=color2,)
-            ax2.set_ylabel("Count", color = color2)
-            ax.text(ax.get_xlim()[1]*.8,90 ,f'std 1 {std_p80_1}')
+        st.session_state.simul_recovery=df_rand[df_rand["recovery"]>0]["recovery"].mean()
+        st.session_state.simul_recovery=round(st.session_state.simul_recovery,2)
 
-            #plt.title('Curva Recuperación versus P80',fontsize=22)
-            st.pyplot(fig1)
-
-            metric("Simulated Recovery", st.session_state.simul_recovery,)
-
-
-        with col23:
-            st.subheader('')
-
-            prob=random.random()
-            norm.ppf(prob,loc=average_p80,scale=std_p80_2)
-            df_rand= pd.DataFrame(np.random.random(size=(st.session_state.simul_number, 1)), columns=['random'])
-            df_rand['Simulated_p80']=norm.ppf(df_rand['random'],loc=average_p80,scale=std_p80_2)
-
-            def check(row):
-                if row['Simulated_p80']<35: 
-                    val=np.nan
-                elif row['Simulated_p80']>st.session_state.x0_2: 
-                    val=np.nan
-                else: 
-                    val=row['Simulated_p80']
-                return val
-
-
-            df_rand['Simulated_p80_check']=df_rand.apply(check, axis=1) 
-            df_rand["recovery"]=df_rand['Simulated_p80_check'].apply(st.session_state.f)
-
-            st.session_state.simul_recovery2=df_rand[df_rand["recovery"]>0]["recovery"].mean()
-            st.session_state.simul_recovery2=round(st.session_state.simul_recovery2,2)
-
-            max_p80=df_rand['Simulated_p80_check'].max()
-
-            st.session_state.df_rand=df_rand
+        st.session_state.df_rand=df_rand
 
 
 
-            color1= "#002A54"
-            #'midnightblue'
-            color2="#C94F7E"
-            #'purple'
-            plt.style.use('default')
-            x_new = np.linspace(st.session_state.x1_min, st.session_state.x2_max, 100)
-            y_new = st.session_state.f(x_new)
-            plt.rcParams.update({'font.size': 16})
-            fig1, ax = plt.subplots(figsize=(12,8))
-            ax2=ax.twinx()
-            plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
-            ax.fill_between(x_new, y_new,alpha=0.1,color=color1,linewidth=2)
-            ax.fill_between(st.session_state.x_new_1, st.session_state.y_new_1,alpha=0.1,color=color1,linewidth=2)
-            ax.fill_between(st.session_state.x_new_2, st.session_state.y_new_2,alpha=0.1,color=color1,linewidth=2)
-            ax.plot(x_new, y_new,linewidth =2, color=color1, alpha=.8)
-            ax.plot(st.session_state.x, st.session_state.y, 'o', color=color1)
-            ax.set_ylabel("Recovery", color = color1)
-            ax.set_xlabel("P80")
-            #plt.axhline(y = thr_mean, color = 'r', linestyle = '--',linewidth =0.4)
-            #fig1.text(0.7,0.4,'Average: '+str(round(thr_mean)),color='red',size=4)
-            plt.ylabel("", fontsize=16)
-            plt.xlabel("", fontsize=16)
-            ax.tick_params(axis='both', which='major', labelsize=16,width=0.2)
-            ax.spines['top'].set_linewidth('0.3') 
-            ax.spines['right'].set_linewidth('0.3') 
-            ax.spines['bottom'].set_linewidth('0.3') 
-            ax.spines['left'].set_linewidth('0.3') 
-            ax.set_ylim([0,100])
-            ax.plot(st.session_state.x_new_1, st.session_state.y_new_1,color=color1,linewidth=2)
-            ax.plot(st.session_state.x_new_2, st.session_state.y_new_2,color=color1,linewidth=2)
-            ax2=sns.histplot(st.session_state.df_rand,x='Simulated_p80_check', bins=20, color=color2,)
-            ax2.set_ylabel("Count", color = color2)
-            ax.text(ax.get_xlim()[1]*.8,90 ,f'std 2: {std_p80_2}')
-            #plt.title('Curva Recuperación versus P80',fontsize=22)
-            st.pyplot(fig1)
-            #st.write(ax.get_xlim()[1])
+        color1= "#002A54"
+        #'midnightblue'
+        color2="#C94F7E"
+        #'purple'
+        plt.style.use('default')
+        x_new = np.linspace(st.session_state.x1_min, st.session_state.x2_max, 100)
+        y_new = st.session_state.f(x_new)
+        plt.rcParams.update({'font.size': 16})
+        fig1, ax = plt.subplots(figsize=(12,8))
+        ax2=ax.twinx()
+        plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
+        ax.fill_between(x_new, y_new,alpha=0.1,color=color1,linewidth=2)
+        ax.fill_between(st.session_state.x_new_1, st.session_state.y_new_1,alpha=0.1,color=color1,linewidth=2)
+        ax.fill_between(st.session_state.x_new_2, st.session_state.y_new_2,alpha=0.1,color=color1,linewidth=2)
+        ax.plot(x_new, y_new,linewidth =2, color=color1, alpha=.8)
+        ax.plot(st.session_state.x, st.session_state.y, 'o', color=color1)
+        ax.set_ylabel("Recovery", color = color1)
+        ax.set_xlabel("P80")
+        #plt.axhline(y = thr_mean, color = 'r', linestyle = '--',linewidth =0.4)
+        #fig1.text(0.7,0.4,'Average: '+str(round(thr_mean)),color='red',size=4)
+        plt.ylabel("", fontsize=16)
+        plt.xlabel("", fontsize=16)
+        ax.tick_params(axis='both', which='major', labelsize=16,width=0.2)
+        ax.spines['top'].set_linewidth('0.3') 
+        ax.spines['right'].set_linewidth('0.3') 
+        ax.spines['bottom'].set_linewidth('0.3') 
+        ax.spines['left'].set_linewidth('0.3') 
+        ax.set_ylim([0,100])
+        ax.plot(st.session_state.x_new_1, st.session_state.y_new_1,color=color1,linewidth=2)
+        ax.plot(st.session_state.x_new_2, st.session_state.y_new_2,color=color1,linewidth=2)
+        ax2=sns.histplot(st.session_state.df_rand,x='Simulated_p80_check', bins=20, color=color2,)
+        ax2.set_ylabel("Count", color = color2)
+        ax.text(ax.get_xlim()[1]*.8,90 ,f'std 1 {std_p80_1}')
 
-            metric("Simulated Recovery", st.session_state.simul_recovery2,)
+        #plt.title('Curva Recuperación versus P80',fontsize=22)
+        st.pyplot(fig1)
 
-        col31, col32, col33 = st.columns((2,8,2))
-        rec_dif=st.session_state.simul_recovery2-st.session_state.simul_recovery
-        cobre_ad=ton_diario*ley/100*rec_dif/100
-        ppd=cobre_ad*2204.63
-        us_day=ppd*precio
-        us_year=us_day*365
+        metric("Simulated Recovery", st.session_state.simul_recovery,)
 
-        with col32:
-            st.info(f'Recovery Difference: {round(rec_dif,2)}%')
-            st.info(f'Daily Tons of Additional Fine Copper: {round(cobre_ad,2)} tpd')
-            st.info(f'Pounds per day  {round(ppd)}')
-            if us_day>0:
-                st.success(f'Additional Daily Income: {round(us_day,):,} US$/day')
-                st.success(f'Additional Yearly Income: {round(us_year,):,} US$/year')
-            else:
-                st.error(f'Additional Daily Income: {round(us_day,):,} US$/day')
-                st.error(f'Additional Yearly Income: {round(us_year,):,} US$/year')
+
+    with col23:
+        st.subheader('')
+
+        prob=random.random()
+        norm.ppf(prob,loc=average_p80,scale=std_p80_2)
+        df_rand= pd.DataFrame(np.random.random(size=(st.session_state.simul_number, 1)), columns=['random'])
+        df_rand['Simulated_p80']=norm.ppf(df_rand['random'],loc=average_p80,scale=std_p80_2)
+
+        def check(row):
+            if row['Simulated_p80']<35: 
+                val=np.nan
+            elif row['Simulated_p80']>st.session_state.x0_2: 
+                val=np.nan
+            else: 
+                val=row['Simulated_p80']
+            return val
+
+
+        df_rand['Simulated_p80_check']=df_rand.apply(check, axis=1) 
+        df_rand["recovery"]=df_rand['Simulated_p80_check'].apply(st.session_state.f)
+
+        st.session_state.simul_recovery2=df_rand[df_rand["recovery"]>0]["recovery"].mean()
+        st.session_state.simul_recovery2=round(st.session_state.simul_recovery2,2)
+
+        max_p80=df_rand['Simulated_p80_check'].max()
+
+        st.session_state.df_rand=df_rand
+
+
+
+        color1= "#002A54"
+        #'midnightblue'
+        color2="#C94F7E"
+        #'purple'
+        plt.style.use('default')
+        x_new = np.linspace(st.session_state.x1_min, st.session_state.x2_max, 100)
+        y_new = st.session_state.f(x_new)
+        plt.rcParams.update({'font.size': 16})
+        fig1, ax = plt.subplots(figsize=(12,8))
+        ax2=ax.twinx()
+        plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
+        ax.fill_between(x_new, y_new,alpha=0.1,color=color1,linewidth=2)
+        ax.fill_between(st.session_state.x_new_1, st.session_state.y_new_1,alpha=0.1,color=color1,linewidth=2)
+        ax.fill_between(st.session_state.x_new_2, st.session_state.y_new_2,alpha=0.1,color=color1,linewidth=2)
+        ax.plot(x_new, y_new,linewidth =2, color=color1, alpha=.8)
+        ax.plot(st.session_state.x, st.session_state.y, 'o', color=color1)
+        ax.set_ylabel("Recovery", color = color1)
+        ax.set_xlabel("P80")
+        #plt.axhline(y = thr_mean, color = 'r', linestyle = '--',linewidth =0.4)
+        #fig1.text(0.7,0.4,'Average: '+str(round(thr_mean)),color='red',size=4)
+        plt.ylabel("", fontsize=16)
+        plt.xlabel("", fontsize=16)
+        ax.tick_params(axis='both', which='major', labelsize=16,width=0.2)
+        ax.spines['top'].set_linewidth('0.3') 
+        ax.spines['right'].set_linewidth('0.3') 
+        ax.spines['bottom'].set_linewidth('0.3') 
+        ax.spines['left'].set_linewidth('0.3') 
+        ax.set_ylim([0,100])
+        ax.plot(st.session_state.x_new_1, st.session_state.y_new_1,color=color1,linewidth=2)
+        ax.plot(st.session_state.x_new_2, st.session_state.y_new_2,color=color1,linewidth=2)
+        ax2=sns.histplot(st.session_state.df_rand,x='Simulated_p80_check', bins=20, color=color2,)
+        ax2.set_ylabel("Count", color = color2)
+        ax.text(ax.get_xlim()[1]*.8,90 ,f'std 2: {std_p80_2}')
+        #plt.title('Curva Recuperación versus P80',fontsize=22)
+        st.pyplot(fig1)
+        #st.write(ax.get_xlim()[1])
+
+        metric("Simulated Recovery", st.session_state.simul_recovery2,)
+
+    col31, col32, col33 = st.columns((2,8,2))
+    rec_dif=st.session_state.simul_recovery2-st.session_state.simul_recovery
+    cobre_ad=ton_diario*ley/100*rec_dif/100
+    ppd=cobre_ad*2204.63
+    us_day=ppd*precio
+    us_year=us_day*365
+
+    with col32:
+        st.info(f'Recovery Difference: {round(rec_dif,2)}%')
+        st.info(f'Daily Tons of Additional Fine Copper: {round(cobre_ad,2)} tpd')
+        st.info(f'Pounds per day  {round(ppd)}')
+        if us_day>0:
+            st.success(f'Additional Daily Income: {round(us_day,):,} US$/day')
+            st.success(f'Additional Yearly Income: {round(us_year,):,} US$/year')
+        else:
+            st.error(f'Additional Daily Income: {round(us_day,):,} US$/day')
+            st.error(f'Additional Yearly Income: {round(us_year,):,} US$/year')
 
 if __name__ == "__main__":
     main()
