@@ -251,8 +251,8 @@ def page_model():
         slope_1=f(x1_min,1)
         c_1=df_test["Recovery"].iloc[0]-slope_1*x1_min
         x0_1=-c_1/slope_1
-        x_new_1=np.linspace(0,x1_min-1, 100)
-        y_new_1=x_new_1 *slope_1+c_1
+        st.session_state.x_new_1=np.linspace(0,x1_min-1, 100)
+        y_new_1=st.session_state.x_new_1 *slope_1+c_1
 
         x2_max=df_test["p80"].iloc[-1]
         slope_2=f(x2_max,1)
@@ -296,7 +296,7 @@ def page_model():
             ax2=ax.twinx()
             plt.grid(True, axis='y',linewidth=0.2, color='gray', linestyle='-')
             ax.fill_between(x_new, y_new,alpha=0.1,color=color1,linewidth=2)
-            ax.fill_between(x_new_1, y_new_1,alpha=0.1,color=color1,linewidth=2)
+            ax.fill_between(st.session_state.x_new_1, y_new_1,alpha=0.1,color=color1,linewidth=2)
             ax.fill_between(x_new_2, y_new_2,alpha=0.1,color=color1,linewidth=2)
             ax.plot(x_new, y_new,linewidth =2, color=color1, alpha=.8)
             ax.plot(x, y, 'o', color=color1)
@@ -312,7 +312,7 @@ def page_model():
             ax.spines['bottom'].set_linewidth('0.3') 
             ax.spines['left'].set_linewidth('0.3') 
             ax.set_ylim([0,100])
-            ax.plot(x_new_1, y_new_1,color=color1,linewidth=2)
+            ax.plot(st.session_state.x_new_1, y_new_1,color=color1,linewidth=2)
             ax.plot(x_new_2, y_new_2,color=color1,linewidth=2)
             ax2=sns.histplot(df_rand,x='Simulated_p80_check', bins=20, color=color2,)
             ax2.set_ylabel("Count", color = color2)
