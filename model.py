@@ -654,7 +654,7 @@ def page_eco():
     with col32:
         st.info(f'Recovery Difference: {round(rec_dif,2)}%')
         st.info(f'Daily Tons of Additional Fine Copper: {round(cobre_ad,2)} tpd')
-        st.info(f'Pounds per day  {round(ppd)}')
+        st.info(f'Pounds per day: {round(ppd),:}')
         if us_day>0:
             st.success(f'Additional Daily Income: {round(us_day,):,} US$/day')
             st.success(f'Additional Yearly Income: {round(us_year,):,} US$/year')
