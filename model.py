@@ -448,7 +448,7 @@ def page_sensitivity():
     with col212:
          
         st.subheader('Recovery versus P80 Standar Deviation Graph')
-        simul_number=st.session_state.simul_number
+        simul_number1=st.session_state.simul_number
 
         list_rec=[]
         list_std=[]
@@ -460,7 +460,7 @@ def page_sensitivity():
             for i in range(0,number_sim):
                 std_aux=std_p80_min+(std_p80_max-std_p80_min)*i/(number_sim-1)
                 prob=random.random()
-                df_rand= pd.DataFrame(np.random.random(size=(simul_number, 1)), columns=['random'])
+                df_rand= pd.DataFrame(np.random.random(size=(simul_number1, 1)), columns=['random'])
                 df_rand['Simulated_p80']=norm.ppf(df_rand['random'],loc=average_p80,scale=std_aux)
                 df_rand['Simulated_p80_check']=df_rand.apply(check, axis=1) 
                 df_rand["recovery"]=df_rand['Simulated_p80_check'].apply(st.session_state.f)
