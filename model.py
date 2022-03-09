@@ -486,6 +486,7 @@ def page_sensitivity():
         #plt.plot(list_std,list_rec)
  
 def page_eco():
+    simul_number2=st.session_state.simul_number
 
     col11, col12, col13 = st.columns((1,8,1.5))
 
@@ -512,7 +513,7 @@ def page_eco():
 
         prob=random.random()
         norm.ppf(prob,loc=average_p80,scale=std_p80_1)
-        df_rand= pd.DataFrame(np.random.random(size=(st.session_state.simul_number, 1)), columns=['random'])
+        df_rand= pd.DataFrame(np.random.random(size=(simul_number2, 1)), columns=['random'])
         df_rand['Simulated_p80']=norm.ppf(df_rand['random'],loc=average_p80,scale=std_p80_1)
 
         def check(row):
@@ -580,7 +581,7 @@ def page_eco():
 
         prob=random.random()
         norm.ppf(prob,loc=average_p80,scale=std_p80_2)
-        df_rand= pd.DataFrame(np.random.random(size=(st.session_state.simul_number, 1)), columns=['random'])
+        df_rand= pd.DataFrame(np.random.random(size=(simul_number2, 1)), columns=['random'])
         df_rand['Simulated_p80']=norm.ppf(df_rand['random'],loc=average_p80,scale=std_p80_2)
 
         def check(row):
