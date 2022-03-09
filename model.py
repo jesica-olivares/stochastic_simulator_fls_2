@@ -486,7 +486,7 @@ def page_sensitivity():
         #plt.plot(list_std,list_rec)
  
 def page_eco():
-    simul_number2=st.session_state.simul_number
+    simul_number2=1000
 
     col11, col12, col13 = st.columns((1,8,1.5))
 
