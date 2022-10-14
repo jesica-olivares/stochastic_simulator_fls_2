@@ -24,6 +24,9 @@ Mathematical computation of the recovery based on the input of variability of P8
 
 #### Sensitivity Analysis
 
+![captura3_2](https://user-images.githubusercontent.com/79235844/195939371-7e8f5631-ff96-4c7a-9257-5bc59fcbc1c3.png)
+
+
 #### Economic Evaluation
 
 
